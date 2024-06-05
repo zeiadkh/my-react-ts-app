@@ -1,17 +1,16 @@
-// src/components/auth/Registration.tsx
-
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import  {register}  from '../store/actions/authActions';
 
 interface RegistrationProps {
-  register: (data: { username: string; password: string }) => void;
+  register: (data: { username: string; password: string; confirmPassword: string }) => void;
 }
 
 const Registration: React.FC<RegistrationProps> = ({ register }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    confirmPassword: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +37,10 @@ const Registration: React.FC<RegistrationProps> = ({ register }) => {
         <label>
           Password:
           <input type="password" name="password" onChange={handleChange} />
+        </label>
+        <label>
+          ConfirmPassword:
+          <input type="password" name="confirmPassword" onChange={handleChange} />
         </label>
         <br />
         <button type="submit">Register</button>

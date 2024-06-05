@@ -1,17 +1,16 @@
-// src/components/TaskForm.tsx
-
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTask, updateTask } from '../store/actions/tasksActions';
+import { useSelector, } from 'react-redux';
+import { addTask, updateTask, createTask } from '../store/actions/tasksActions';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface TaskFormProps {
   editIndex?: number | null;
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ editIndex }: any) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const tasks = useSelector((state: any) => state.tasks.tasks);
   const [task, setTask] = useState({
     title: '',
@@ -33,16 +32,22 @@ const TaskForm: React.FC<TaskFormProps> = ({ editIndex }: any) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit =async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("handle from submit", task)
+    // if (editIndex !== null && tasks[editIndex]) {
+    //   dispatch(updateTask(editIndex, task));
+    // } else {
+      try {
+       createTask(task);
+        
+      } catch (error: any) {
+        console.log(error)
+        toast.error(error)
+      }
+    // }
 
-    if (editIndex !== null && tasks[editIndex]) {
-      dispatch(updateTask(editIndex, task));
-    } else {
-      dispatch(addTask(task));
-    }
-
-    setTask({ title: '', description: '', dueDate: '', category: '' });
+    // setTask({ title: '', description: '', dueDate: '', category: '' });
   };
 
   const handleCancelEdit = () => {
@@ -96,7 +101,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ editIndex }: any) => {
       </Form.Group>
 
       <Button variant="primary" type="submit" style={{ margin: '10px' }}>
-        {editIndex !== null ? 'Update Task' : 'Add Task'}
+         Add Task
       </Button>
 
       {editIndex !== null && (
@@ -104,6 +109,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ editIndex }: any) => {
           Cancel Edit
         </Button>
       )}
+      <ToastContainer />
     </Form>
   );
 };

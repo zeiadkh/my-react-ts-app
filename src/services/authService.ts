@@ -1,11 +1,10 @@
-
 import axios from 'axios';
-
-const API_URL = 'http:localhost:3000'; // Replace with your API URL
+const API_URL = 'http://localhost:3001'; 
 
 interface RegistrationData {
   username: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface LoginData {
@@ -13,15 +12,17 @@ interface LoginData {
   password: string;
 }
 
-const register = (data: RegistrationData) => {
-  return axios.post(`${API_URL}/register`, data);
+export const register = (data: RegistrationData) => {
+  return axios.post(`${API_URL}/users/register`, data);
 };
 
-const login = (data: LoginData) => {
-  return axios.post(`${API_URL}/login`, data);
+export const login = (data: LoginData) => {
+  return axios.post(`${API_URL}/users/login`, data);
 };
 
-export default {
+
+const auth = {
   register,
-  login,
-};
+  login
+}
+export default auth

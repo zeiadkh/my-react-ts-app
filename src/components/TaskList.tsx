@@ -1,13 +1,14 @@
-// src/components/TaskList.tsx
-
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTask, toggleComplete } from '../store/actions/tasksActions';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import TaskForm from './TaskForm';
+import { getTasks } from '../services/taskService';
 
 const TaskList: React.FC = () => {
+  const data = getTasks(localStorage?.getItem("token") || "")
+data.then(res => console.log(res))
   const dispatch = useDispatch();
   const tasks = useSelector((state: any) => state.tasks.tasks);
   const categories = Array.from(new Set(tasks.map((task: any) => task.category)));
